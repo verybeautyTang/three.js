@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画线</title>
+</head>
+<body>
+  <script src="./js/three.js"></script>
+  <script>
+    // 创建场景
+    const scene = new THREE.Scene();
+    // 创建渲染器
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    // 创建摄像头
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500);
+    camera.position.set(0,0,100);
+    camera.lookAt(0,0,0);
+
+    // 创建线条【一般会使用LineBasicMaterial(实线)或则LineDashedMaterial（虚线）】
+    const material = new THREE.LineDashedMaterial({color: 0x0000ff, dashSize: 3});
+    // 创建带顶点的几何体
+    const points = [];
+    points.push(new THREE.Vector3(-10,0,0));
+    points.push(new THREE.Vector3(0,10,0));
+    points.push(new THREE.Vector3(10,0,0));
+    // points.push(new THREE.Vector3(0,-10,0));
+    points.push(new THREE.Vector3(-10,0,0));
+    const geomotry = new THREE.BufferGeometry().setFromPoints(points)
+
+    // 渲染页面
+    const line = new THREE.Line(geomotry, material);
+    scene.add(line);
+    renderer.render(scene, camera)
+  </script>
+</body>
+</html>
