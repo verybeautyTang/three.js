@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>my first three.js</title>
+  <style> 
+    body {
+      margin: 0px;
+    }
+  </style>
+</head>
+<body>
+  <script src="./js/three.js"></script>
+  <!-- 创建场景 -->
+  <script>
+    // 第一步：创建场景
+
+    // Scene 场景
+    const scene = new THREE.Scene();
+    // PerspectiveCamera 透视摄像机【视野角度， 长宽比，近截面，远截面】
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // WebGLRenderer 渲染器
+    const renderer = new THREE.WebGLRenderer();
+    // setSize因为WebGLRenderer渲染器的宽和高是浏览器视窗高度，我们可以用setSize传入一个较小的数值。
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // 将渲染的dom元素添加到body中
+    document.body.appendChild(renderer.domElement);
+
+    // 第二步：添加元素
+
+    // 创建立方体
+    const geomotry = new THREE.BoxGeometry(1,1,1);
+    // 添加颜色
+    const material = new THREE.MeshBasicMaterial({color:'0x00ff00'});
+    // 设置网格，可让它在场景中自由活动
+    const cube = new THREE.Mesh(geomotry, material);
+    scene.add(cube);
+    camera.position.z = 5;
+    
+    // 第三步： 渲染场景
+
+    function animate () {
+      // requestAnimationFrame优点：当用户切到其他标签页的时候会暂停，不会占用处理器资源。
+      // https://developer.mozilla.org/zh-CN/docs/Web/API/window/requestAnimationFrame
+      requestAnimationFrame(animate);
+      //让立方动起来
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
+      renderer.render(scene, camera)
+    }
+    animate();
+  </script>
+</body>
+</html>
