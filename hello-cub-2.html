@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hello cube</title>
+</head>
+<body>
+  <canvas id="cube"></canvas>
+  <script src='./js/three.js'></script>
+  <script>
+    //  绘制多个图形
+    function main () {
+      // 获取元素
+      const canvas = document.querySelector('#cube');
+      // 创建渲染器并绘制到canvas上
+      const renderer = new THREE.WebGLRenderer({canvas});
+      // 创建摄像器
+      const camera = new THREE.PerspectiveCamera(75,2, 0.1, 5);
+      camera.position.z = 2;
+      // 创建场景
+      const scene = new THREE.Scene();
+      // c创建立方体
+      const geomotry = new THREE.BoxGeometry(1, 1, 1);
+      
+
+      // 添加灯光【这里要把上面的meterial的立方体材质改掉，之前是MeshBasicMaterial不会受灯光的影响，MeshPhongMaterial是会受灯光的影响】
+      const color = 0xffffff;
+      const intensity = 1;
+      const light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(-1, 2, 4);
+      scene.add(light)
+     
+      //  绘制多个图形
+      function makeInstance(geomotry, color,x) {
+        const material = new THREE.MeshPhongMaterial({color});
+        const cube = new THREE.Mesh(geomotry, material);
+        scene.add(cube);
+        cube.position.x = x;
+        return cube;
+      }
+      // 生成的实例保存在一个数组中
+      const cubes = [
+        makeInstance(geomotry, 0x44aa88, 0),
+        makeInstance(geomotry, 0x8844aa, -2),
+        makeInstance(geomotry, 0xaa8844, 2),
+      ]
+      // 动起来
+      function render(time) {
+        time *= 0.001; // 将时间转化为s
+        cubes.forEach((cube, index) => {
+          const spped = 1+ index * .1;
+          const rot = time * spped;
+          cube.rotation.x = rot;
+          cube.rotation.y = rot;
+        })
+         // 渲染
+      renderer.render(scene, camera)
+      
+      window.requestAnimationFrame(render)
+      }
+      window.requestAnimationFrame(render);
+    }
+    main();
+  </script>
+</body>
+</html>

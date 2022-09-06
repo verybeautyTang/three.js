@@ -21,8 +21,23 @@
   <div id="info">create-text</div>
   <script src="./js/three.js"></script>
   <script>
+      // Scene 场景
     const scene = new THREE.Scene();
-    const camera = new p
+    // PerspectiveCamera 透视摄像机【视野角度， 长宽比，近截面，远截面】
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    // WebGLRenderer 渲染器
+    const renderer = new THREE.WebGLRenderer();
+    // setSize因为WebGLRenderer渲染器的宽和高是浏览器视窗高度，我们可以用setSize传入一个较小的数值。
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // 将渲染的dom元素添加到body中
+    document.body.appendChild(renderer.domElement);
+
+    // 创建纹理
+    const texture = new THREE.TextureLoader().load('my name is beautyTang');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 4, 4 );
+    renderer.render(scene, camera)
   </script>
 </body>
 </html>
