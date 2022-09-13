@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CylinderGeometry-柱体</title>
+  <style>
+    #canvas {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" ></canvas>
+  <script src="../js/three.js"></script>
+  <script>
+    //----------------------------------
+    const canvas = document.querySelector('#canvas');
+    const renderer = new THREE.WebGLRenderer({canvas});
+    
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5);
+    camera.position.z = 10;
+
+    const scene = new THREE.Scene();
+    const radiusTop = 1;  // ui: radiusTop
+    const radiusBottom = 1;  // ui: radiusBottom
+    const height = 2;  // ui: height
+    const radialSegments = 2;  // ui: radialSegments
+    const geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
+
+    const mesh = new THREE.MeshBasicMaterial({color: 0x00fff0});
+    const cyline = new THREE.Mesh(geometry, mesh);
+    scene.add(cyline);
+    
+    function render(time) {
+      time *= 0.001;
+      cyline.rotation.x = time;
+      cyline.rotation.y = time;
+
+      renderer.render(scene, camera);
+
+      window.requestAnimationFrame(render);
+
+    }
+    window.requestAnimationFrame(render);
+
+  </script>
+</body>
+</html>
