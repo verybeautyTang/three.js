@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>场景图</title>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="../js/three.js"></script>
+  <script>
+
+  const canvas = document.querySelector('#canvas');
+  const renderer = new THREE.WebGLRenderer({canvas});
+
+    // 要更新旋转角度的对象数组
+    const objects = []
+
+
+    const scene = new THREE.Scene();
+    // 一球多用
+    const radius = 1;
+    const widthSegments = 6;
+    const heightSegmtnts = 6;
+    const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegmtnts)
+    const sunMaterial = new THREE.MeshPhongMaterial({emissive: 0xffff00});
+    const sunMesh = new THREE.Mesh(sphereGeometry, sunMaterial);
+    sunMesh.scale.set(5, 5, 5); // 扩大太阳的大小
+    scene.add(sunMesh);
+    objects.push(sunMesh);
+
+
+    {
+      const color = 0xFFFFFF;
+      const intensity = 3;
+      const light = new THREE.PointLight(color, intensity);
+      scene.add(light);
+    }
+
+
+    // 摄像机
+    const fov = 40;
+    const aspect = 2;  // the canvas default
+    const near = 0.1;
+    const far = 1000;
+    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 50, 0);
+    camera.up.set(0, 0, 1);
+    camera.lookAt(0, 0, 0);
+
+    function render(time) {
+    time *= 0.001;
+
+    if (window.resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    objects.forEach((obj) => {
+      obj.rotation.y = time;
+    });
+
+    renderer.render(scene, camera);
+  }
+  window.requestAnimationFrame(render);
+  </script>
+</body>
+</html>
