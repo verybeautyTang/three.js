@@ -1,7 +1,7 @@
 import React from "react";
-import {  Scene, Mesh, PerspectiveCamera, WebGLRenderer, LatheGeometry, MeshBasicMaterial, Vector2} from 'three'
+import {  Scene, Mesh, PerspectiveCamera, WebGLRenderer, MeshBasicMaterial, TorusKnotGeometry} from 'three'
 
-const LatheGeometryTest = () =>  {
+const TorusKnotGeometryTest = () =>  {
   while(document.body.children.length !== 0) {
     document.body.removeChild(document.body.children[0]);
   }
@@ -13,11 +13,14 @@ const LatheGeometryTest = () =>  {
 
   const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight , 0.1, 100)
   camera.position.z = 20;
-  const points = [];
-  for (let i = 0; i < 10; ++i) {
-    points.push(new Vector2(Math.sin(i * 0.2) * 0.01 + 5, (i - 10) * .8));
-  }
-  const geometry = new LatheGeometry(points);
+  const radius = 3.5;  // ui: radius
+  const tubeRadius = 1.5;  // ui: tubeRadius
+  const radialSegments = 8;  // ui: radialSegments
+  const tubularSegments = 64;  // ui: tubularSegments
+  const p = 2;  // ui: p
+  const q = 3;  // ui: q
+  const geometry = new TorusKnotGeometry(
+      radius, tubeRadius, tubularSegments, radialSegments, p, q);
   const material = new MeshBasicMaterial({color: 0x000eff0});
   const cube = new Mesh(geometry, material)
   scene.add(cube);
@@ -36,4 +39,4 @@ const LatheGeometryTest = () =>  {
   return (<></>)
 }
 
-export default LatheGeometryTest
+export default TorusKnotGeometryTest

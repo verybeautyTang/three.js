@@ -1,7 +1,7 @@
 import React from "react";
-import {  Scene, Mesh, PerspectiveCamera, WebGLRenderer, LatheGeometry, MeshBasicMaterial, Vector2} from 'three'
+import {  Scene, Mesh, PerspectiveCamera, WebGLRenderer, MeshBasicMaterial, BoxGeometry, EdgesGeometry} from 'three'
 
-const LatheGeometryTest = () =>  {
+const EdgesGeometryTest = () =>  {
   while(document.body.children.length !== 0) {
     document.body.removeChild(document.body.children[0]);
   }
@@ -13,12 +13,15 @@ const LatheGeometryTest = () =>  {
 
   const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight , 0.1, 100)
   camera.position.z = 20;
-  const points = [];
-  for (let i = 0; i < 10; ++i) {
-    points.push(new Vector2(Math.sin(i * 0.2) * 0.01 + 5, (i - 10) * .8));
-  }
-  const geometry = new LatheGeometry(points);
-  const material = new MeshBasicMaterial({color: 0x000eff0});
+  const size = 8;
+  const widthSegments = 2;
+  const heightSegments = 2;
+  const depthSegments = 2;
+  const boxGeometry = new BoxGeometry(
+      size, size, size,
+      widthSegments, heightSegments, depthSegments);
+  const geometry = new EdgesGeometry(boxGeometry);
+  const material = new MeshBasicMaterial({color: 0xffffff});
   const cube = new Mesh(geometry, material)
   scene.add(cube);
 
@@ -36,4 +39,4 @@ const LatheGeometryTest = () =>  {
   return (<></>)
 }
 
-export default LatheGeometryTest
+export default EdgesGeometryTest
